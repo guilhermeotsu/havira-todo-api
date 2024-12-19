@@ -18,7 +18,7 @@ public class TodoController : BaseController
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public TodoController(Mapper mapper, Mediator mediator)
+    public TodoController(IMapper mapper, IMediator mediator)
     {
         _mapper = mapper;
         _mediator = mediator;
@@ -42,7 +42,7 @@ public class TodoController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
-        var command = _mapper.Map<GetTodoCommand>(request);
+        var command = _mapper.Map<GetTodoCommand>(request.TodoId);
         var response = await _mediator.Send(command, ct);
 
         return Ok(data: new ApiResponseWithData<GetTodoResponse>
