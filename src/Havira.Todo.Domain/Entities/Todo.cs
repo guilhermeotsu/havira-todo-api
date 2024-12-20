@@ -27,7 +27,8 @@ public class Todo : BaseEntity, ITodo
     /// Must be a required
     /// </summary>
     public Guid UserId { get; set; }
-
+    public User User { get; set; }
+    
     /// <summary>
     /// Gets the todo's when was created
     /// Must be a required
@@ -57,6 +58,7 @@ public class Todo : BaseEntity, ITodo
     /// </summary>
     /// <returns>The Title of Todo as string.</returns>
     string ITodo.Id => Id.ToString();
+    
 
     /// <summary>
     /// Performs validation of the todo entity using the TodoValidator rules.

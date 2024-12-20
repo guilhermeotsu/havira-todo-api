@@ -21,7 +21,12 @@ public class User : BaseEntity, IUser
     /// <returns>The Title of Todo as string.</returns>
     public string Password { get; set; } = string.Empty;
 
-    string IUser.Id => Id.ToString();    
+    string IUser.Id => Id.ToString();
+    
+    /// <summary>
+    /// Navigation property for related Todos
+    /// </summary>
+    public ICollection<Todo> Todos { get; set; }
     
     /// <summary>
     /// Performs validation of the user entity using the UserValidation rules.

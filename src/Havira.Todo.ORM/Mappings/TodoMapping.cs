@@ -28,5 +28,11 @@ public class TodoMapping : IEntityTypeConfiguration<Havira.Todo.Domain.Entities.
 
         builder.Property(p => p.UserId)
             .IsRequired();
+
+        builder.HasOne(p => p.User)
+            .WithMany(u => u.Todos)
+            .HasForeignKey(p => p.UserId)
+            .HasConstraintName("FK_Todo_User")
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
