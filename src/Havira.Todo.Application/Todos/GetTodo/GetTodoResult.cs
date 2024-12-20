@@ -28,10 +28,10 @@ public class GetTodoResult
     /// <summary>
     /// The Date when Todo was created
     /// </summary>
-    public DateTime CreateDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     
     /// <summary>
     /// The Date when Todo was completed
     /// </summary>
-    public DateTime? CompletedDate { get; set; } = null;
+    public DateTime? CompletedAt { get; set; } = null;
 }

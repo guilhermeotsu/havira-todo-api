@@ -11,8 +11,8 @@ public class CreateTodoResponse : CreateTodoRequest
     public Guid Id { get; set; }
     
     /// <summary>
-    /// Gets or sets the CreateDate. Must be required
+    /// Gets or sets the CreatedAt. Must be required
     /// </summary>
-    public DateTime CreateDate { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
 

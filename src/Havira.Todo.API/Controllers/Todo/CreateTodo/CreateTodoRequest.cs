@@ -18,7 +18,7 @@ public class CreateTodoRequest
     /// <summary>
     /// Gets or Sets the date when the Todo was completed.
     /// </summary>
-    public DateTime? CompletedDate { get; set; } = null;
+    public DateTime? CompletedAt { get; set; } = null;
 
     /// <summary>
     /// Gets or Sets the id of the Todo account.

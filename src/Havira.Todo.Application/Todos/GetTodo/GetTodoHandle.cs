@@ -11,7 +11,7 @@ public class GetTodoHandle : IRequestHandler<GetTodoCommand, GetTodoResult>
     /// <param name="cancellationToken"></param>
     /// <returns>Todo details if found</returns>
     /// <exception cref="NotImplementedException"></exception>
-    public Task<GetTodoResult> Handle(GetTodoCommand request, CancellationToken cancellationToken)
+    public async Task<GetTodoResult> Handle(GetTodoCommand request, CancellationToken cancellationToken)
     {
         // validate the request with fluentvalidation
         // if is not valid throw an exception
