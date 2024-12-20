@@ -1,11 +1,6 @@
-using AutoMapper;
-using Havira.Todo.Domain.Repostories;
-using Havira.Todo.ORM.Repositories;
-using MediatR;
+namespace Havira.Todo.Application.Todos.UpdateTodo;
 
-namespace Havira.Todo.Application.Todos.GetTodo;
-
-public class GetTodoHandle : IRequestHandler<GetTodoCommand, GetTodoResult>
+public class UpdateTodoCommand : IRequestHandler<>
 {
     private readonly ITodoRepository _todoRepository;
     private readonly IMapper _mapper;

@@ -8,5 +8,10 @@ public class RemoveTodoRequest
     /// <summary>
     /// Gets or Sets the id of the todo.
     /// </summary>
-    public Guid TodoId { get; set; }
+    public Guid Id { get; set; }
+    
+    /// <summary>
+    /// Gets or Sets the UserId of the todo.
+    /// </summary>
+    public Guid UserId { get; set; }
 }

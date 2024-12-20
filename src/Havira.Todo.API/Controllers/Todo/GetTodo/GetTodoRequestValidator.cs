@@ -17,8 +17,8 @@ public class GetTodoRequestValidator : AbstractValidator<GetTodoRequest>
     /// </remarks>
     public GetTodoRequestValidator()
     {
-        RuleFor(todo => todo.TodoId)
-            .NotEmpty().WithMessage("Title is required");
+        RuleFor(todo => todo.Id)
+            .NotEmpty().WithMessage("Id is required");
     }
 }
 

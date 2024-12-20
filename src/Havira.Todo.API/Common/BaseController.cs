@@ -16,8 +16,8 @@ public class BaseController : ControllerBase
     protected IActionResult Ok<T>(T data) =>
             base.Ok(new ApiResponseWithData<T> { Data = data, Success = true });
 
-    protected IActionResult Removed(string message) =>
-            base.Ok(new ApiResponse { Success = true, Message = message });
+    protected IActionResult Removed(bool success) =>
+            base.Ok(new ApiResponse { Success = success });
 
     protected IActionResult Created<T>(string routeName, object routeValues, T data) =>
         base.CreatedAtRoute(routeName, routeValues, new ApiResponseWithData<T> { Data = data, Success = true });

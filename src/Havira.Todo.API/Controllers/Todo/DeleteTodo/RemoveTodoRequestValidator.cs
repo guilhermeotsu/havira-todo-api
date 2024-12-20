@@ -17,8 +17,11 @@ public class RemoveTodoRequestValidator : AbstractValidator<RemoveTodoRequest>
     /// </remarks>
     public RemoveTodoRequestValidator()
     {
-        RuleFor(todo => todo.TodoId)
+        RuleFor(todo => todo.Id)
             .NotEmpty().WithMessage("Id is required");
+        
+        RuleFor(todo => todo.UserId)
+            .NotEmpty().WithMessage("UserId is required");
     }
 }
 

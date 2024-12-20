@@ -11,4 +11,14 @@
       <PackageReference Include="MediatR" Version="12.4.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Havira.Todo.Domain\Havira.Todo.Domain.csproj" />
+      <ProjectReference Include="..\Havira.Todo.ORM\Havira.Todo.ORM.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Todos\UpdateTodo\UpdateTodoCommand.cs" />
+      <Compile Remove="Todos\UpdateTodo\UpdateTodoResult.cs" />
+    </ItemGroup>
+
 </Project>

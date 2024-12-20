@@ -5,7 +5,9 @@ using Havira.Todo.API.Controllers.Todo.CreateTodo;
 using Havira.Todo.API.Controllers.Todo.DeleteTodo;
 using Havira.Todo.API.Controllers.Todo.GetTodo;
 using Havira.Todo.API.Controllers.Todo.UpdateTodo;
+using Havira.Todo.Application.Todos.CreateTodo;
 using Havira.Todo.Application.Todos.GetTodo;
+using Havira.Todo.Application.Todos.RemoveTodo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,14 +37,14 @@ public class TodoController : BaseController
     [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetTodo([FromRoute] Guid id, CancellationToken ct)
     {
-        var request = new GetTodoRequest { TodoId = id };
+        var request = new GetTodoRequest { Id = id, UserId = Guid.NewGuid() };
         var validator = new GetTodoRequestValidator();
         var validationResult = await validator.ValidateAsync(request, ct);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
-        var command = _mapper.Map<GetTodoCommand>(request.TodoId);
+        var command = _mapper.Map<GetTodoCommand>(request); 
         var response = await _mediator.Send(command, ct);
 
         return Ok(data: new ApiResponseWithData<GetTodoResponse>
@@ -60,7 +62,7 @@ public class TodoController : BaseController
     /// <param name="ct">Cancellation token</param>
     /// <returns>The created todo details</returns>
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponseWithData<CreateTodoResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CreateTodoResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateTodo(
             [FromBody] CreateTodoRequest request,
@@ -72,13 +74,16 @@ public class TodoController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
+        var createTodoCommand = _mapper.Map<CreateTodoCommand>(request);
+        CreateTodoResult response = await _mediator.Send(createTodoCommand, ct);
+
         return Created(
                 string.Empty,
-                new ApiResponseWithData<CreateTodoResponse>
+                new ApiResponseWithData<CreateTodoResult>
                 {
                     Success = true,
                     Message = "Todo Created successfully",
-                    Data = new CreateTodoResponse()
+                    Data = response
                 });
     }
 
@@ -90,24 +95,28 @@ public class TodoController : BaseController
     /// <param name="ct">Cancellation token</param>
     /// <returns>The updated Todo details</returns>
     [HttpPatch("{id}")]
-    [ProducesResponseType(typeof(ApiResponseWithData<UpdateTodoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<CreateTodoResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateTodo(
             [FromRoute] Guid id,
             [FromBody] UpdateTodoRequest request,
             CancellationToken ct)
     {
+        request.Id = id;
         var validator = new UpdateTodoRequestValidator();
         var validationResult = await validator.ValidateAsync(request, ct);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
-        return Ok(data: new ApiResponseWithData<CreateTodoResponse>
+        var updateCommand = _mapper.Map<CreateTodoCommand>(request);
+        CreateTodoResult result = await _mediator.Send(updateCommand, ct);
+
+        return Ok(data: new ApiResponseWithData<CreateTodoResult>
                 {
                     Success = true,
                     Message = "Todo Updated successfully",
-                    Data = new UpdateTodoResponse()
+                    Data = result
                 });
     }
 
@@ -122,12 +131,16 @@ public class TodoController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RemoveTodo([FromRoute] Guid id, CancellationToken ct)
     {
+        var request = new RemoveTodoRequest { Id = id, UserId = Guid.NewGuid() };
         var validator = new RemoveTodoRequestValidator();
-        var validationResult = await validator.ValidateAsync(new RemoveTodoRequest { TodoId = id }, ct);
+        var validationResult = await validator.ValidateAsync(request, ct);
 
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
-        return Removed(message: "Todo removed successfully");
+        var command = _mapper.Map<RemoveTodoCommand>(request);
+        RemoveTodoResult result = await _mediator.Send(command, ct);
+        
+       return Removed(success: result.IsRemoved);
     }
 }

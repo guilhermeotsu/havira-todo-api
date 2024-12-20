@@ -8,5 +8,10 @@ public class GetTodoRequest
     /// <summary>
     /// Gets or Sets the id of the todo.
     /// </summary>
-    public Guid TodoId { get; set; }
+    public Guid Id { get; set; }
+    
+    /// <summary>
+    /// Gets or Sets the id of the UserId.
+    /// </summary>
+    public Guid UserId { get; set; }
 }
