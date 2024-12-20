@@ -1,19 +1,19 @@
-namespace Havira.Todo.Application.User;
+namespace Havira.Todo.Application.User.GetUser;
 
-public class CreateUserResult
+public class GetUserResult
 {
     /// <summary>
-    /// Get or Set ID of a user
+    /// The unique identifier of the user
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Get or Set Email of a user
+    /// The user's email address
     /// </summary>
     public string Email { get; set; } = string.Empty;
-
+   
     /// <summary>
-    /// Get or Set Email of a user
+    /// The user's password address
     /// </summary>
     public string Password { get; set; } = string.Empty;
 }
