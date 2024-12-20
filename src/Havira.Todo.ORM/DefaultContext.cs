@@ -2,12 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using Havira.Todo.Domain.Entities;
 
 namespace Havira.Todo.ORM;
 
 public class DefaultContext : DbContext
 {
-    public DbSet<Domain.Entities.Todo?> Todos { get; set; }
+    public DbSet<Domain.Entities.Todo> Todos { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options) { }
 
