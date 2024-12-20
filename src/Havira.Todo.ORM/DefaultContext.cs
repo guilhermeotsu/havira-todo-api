@@ -7,7 +7,7 @@ namespace Havira.Todo.ORM;
 
 public class DefaultContext : DbContext
 {
-    public DbSet<Havira.Todo.Domain.Entities.Todo> Todos { get; set; }
+    public DbSet<Domain.Entities.Todo?> Todos { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options) { }
 

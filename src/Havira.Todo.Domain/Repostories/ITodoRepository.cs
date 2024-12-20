@@ -11,7 +11,7 @@ public interface ITodoRepository
     /// <param name="todo"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Havira.Todo.Domain.Entities.Todo> CreateTodoAsync(Havira.Todo.Domain.Entities.Todo todo, CancellationToken cancellationToken);
+    Task<Entities.Todo?> CreateTodoAsync(Entities.Todo? todo, CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets a todo in the repository
@@ -20,7 +20,7 @@ public interface ITodoRepository
     /// <param name="idUser">ID who created a Todo</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Havira.Todo.Domain.Entities.Todo> GetTodoAsync(Guid id, Guid idUser, CancellationToken cancellationToken);
+    Task<Entities.Todo?> GetTodoAsync(Guid id, Guid idUser, CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets a list of todo in the repository
@@ -36,7 +36,7 @@ public interface ITodoRepository
     /// <param name="id">ID of a Todo</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Havira.Todo.Domain.Entities.Todo > UpdateTodoAsync(Havira.Todo.Domain.Entities.Todo todo, CancellationToken cancellationToken);
+    Task<Entities.Todo?> UpdateTodoAsync(Entities.Todo? todo, CancellationToken cancellationToken);
 
     /// <summary>
     /// Removes a todo in the repository
