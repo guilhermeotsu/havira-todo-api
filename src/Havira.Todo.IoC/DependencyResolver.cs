@@ -8,5 +8,6 @@ public static class DepedencyResolver
     public static void RegisterDependencies(this WebApplicationBuilder builder)
     {
         new ApiModuleInitializer().Initialize(builder);
+        new IocModuleResolver().Initialize(builder);
     }
 }

@@ -2,6 +2,8 @@ using FluentValidation;
 using Havira.Todo.API.Middleware;
 using Havira.Todo.Application;
 using Havira.Todo.IoC;
+using Havira.Todo.ORM;
+using Microsoft.EntityFrameworkCore;
 
 try
 {
@@ -12,13 +14,13 @@ try
     // Add services to the container.
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-    // Add Context to this
-    // builder.Services.AddDbContext<DefaultContext>(options =>
-    //     options.UseNpgsql(
-    //         builder.Configuration.GetConnectionString("DefaultConnection"),
-    //         b => b.MigrationsAssembly("Havira.Todo.ORM")
-    //     )
-    // );
+    //Add Context to this
+    builder.Services.AddDbContext<DefaultContext>(options =>
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("Havira.Todo.ORM")
+        )
+    );
 
     // add jwt
 

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Havira.Todo.Application\Havira.Todo.Application.csproj" />
+    <ProjectReference Include="..\Havira.Todo.ORM\Havira.Todo.ORM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
