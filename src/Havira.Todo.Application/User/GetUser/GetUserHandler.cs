@@ -1,4 +1,5 @@
 using AutoMapper;
+using Havira.Todo.Domain.Repostories;
 using MediatR;
 
 namespace Havira.Todo.Application.User.GetUser;
@@ -9,14 +10,26 @@ namespace Havira.Todo.Application.User.GetUser;
 public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
 {
     private readonly IMapper _mapper;
+    private readonly IUserRepository _userRepository;
 
-    public GetUserHandler(IMapper mapper)
+    public GetUserHandler(IMapper mapper, IUserRepository userRepository)
     {
         _mapper = mapper;
+        _userRepository = userRepository;
     }
-
-    public Task<GetUserResult> Handle(GetUserCommand request, CancellationToken cancellationToken)
+    
+    /// <summary>
+    /// Handles the GetUserCommand request
+    /// </summary>
+    /// <param name="request">The GetUser command</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The user details if found</returns>
+    public async Task<GetUserResult> Handle(GetUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+        if (user == null)
+            throw new KeyNotFoundException($"User with ID {request.Id} not found");
+
+        return _mapper.Map<GetUserResult>(user);
     }
 }

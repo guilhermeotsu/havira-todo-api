@@ -1,8 +1,11 @@
 using AutoMapper;
 using FluentValidation.Results;
 using Havira.Todo.API.Common;
+using Havira.Todo.API.Controllers.Todo.GetTodo;
 using Havira.Todo.API.Controllers.User.CreateUser;
 using Havira.Todo.API.Controllers.User.GetUser;
+using Havira.Todo.Application.User;
+using Havira.Todo.Application.User.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,11 +42,14 @@ public class UserController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
+        var command = _mapper.Map<GetUserCommand>(request);
+        GetUserResult response = await _mediator.Send(command, cancellationToken);
+
         return Ok(new ApiResponseWithData<GetUserResponse>
         {
             Success = true,
             Message = "User retrieved successfully",
-            Data = new GetUserResponse()
+            Data = _mapper.Map<GetUserResponse>(response)
         });
     }
     
@@ -56,7 +62,7 @@ public class UserController : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateUserResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetUser([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request, CancellationToken cancellationToken)
     {
         var validator = new CreateUserRequestValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -64,11 +70,14 @@ public class UserController : BaseController
         if (!validationResult.IsValid)
             return BadRequest(validationResult.ToDictionary());
 
+        var command = _mapper.Map<CreateUserCommand>(request);
+        CreateUserResult result = await _mediator.Send(command, cancellationToken);
+        
         return Ok(new ApiResponseWithData<CreateUserResponse>
         {
             Success = true,
-            Message = "User retrieved successfully",
-            Data = new CreateUserResponse()
+            Message = "User created successfully",
+            Data = _mapper.Map<GetUserResponse>(result)
         });
     }
     

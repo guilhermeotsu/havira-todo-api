@@ -15,10 +15,10 @@ public record CreateUserCommand : IRequest<CreateUserResult>
     /// <summary>
     /// Get's the Email of a User
     /// </summary>
-    public string Email { get; set; }
-    
+    public string Email { get; set; } = string.Empty;
+
     /// <summary>
     /// Get's the Password of a User
     /// </summary>
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 }

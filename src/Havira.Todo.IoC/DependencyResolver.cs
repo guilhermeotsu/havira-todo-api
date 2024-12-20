@@ -9,5 +9,6 @@ public static class DepedencyResolver
     {
         new ApiModuleInitializer().Initialize(builder);
         new IocModuleResolver().Initialize(builder);
+        new ApplicationResolver().Initialize(builder);
     }
 }
