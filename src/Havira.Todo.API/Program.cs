@@ -4,59 +4,75 @@ using Havira.Todo.Application;
 using Havira.Todo.IoC;
 using Havira.Todo.ORM;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
-try
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSwaggerGen(options =>
 {
-    var builder = WebApplication.CreateBuilder(args);
-
-    builder.Services.AddSwaggerGen();
-
-    // Add services to the container.
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-    //Add Context to this
-    builder.Services.AddDbContext<DefaultContext>(options =>
-        options.UseNpgsql(
-            builder.Configuration.GetConnectionString("DefaultConnection"),
-            b => b.MigrationsAssembly("Havira.Todo.ORM")
-        )
-    );
-
-    // add jwt
-
-    builder.RegisterDependencies();
-
-    builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Application).Assembly);
-
-    builder.Services.AddMediatR(cfg =>
+    // Add JWT Bearer scheme to Swagger
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        cfg.RegisterServicesFromAssemblies(
-            typeof(Application).Assembly,
-            typeof(Program).Assembly
-        );
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' [space] and your JWT token. Example: Bearer abc123"
     });
 
-    var app = builder.Build();
-
-    app.UseMiddleware<ValidationExceptionMiddleware>();
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
-    app.UseHttpsRedirection();
+//Add Context to this
+builder.Services.AddDbContext<DefaultContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("Havira.Todo.ORM")
+    )
+);
 
-    // app.UseAuthentication();
-    // app.UseAuthorization();
+builder.RegisterDependencies();
 
-    app.MapControllers();
+builder.Services.AddAutoMapper(typeof(Program).Assembly, typeof(Application).Assembly);
 
-    app.Run();
-}
-catch (Exception ex)
+builder.Services.AddMediatR(cfg =>
 {
-    Console.WriteLine("Fatal unexpected error: ", ex);
+    cfg.RegisterServicesFromAssemblies(
+        typeof(Application).Assembly,
+        typeof(Program).Assembly
+    );
+});
+
+var app = builder.Build();
+
+app.UseMiddleware<ValidationExceptionMiddleware>();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

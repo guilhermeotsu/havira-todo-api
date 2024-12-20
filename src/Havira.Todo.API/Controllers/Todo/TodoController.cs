@@ -9,11 +9,13 @@ using Havira.Todo.Application.Todos.CreateTodo;
 using Havira.Todo.Application.Todos.GetTodo;
 using Havira.Todo.Application.Todos.RemoveTodo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Havira.Todo.API.Controllers.Todo;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class TodoController : BaseController
 {

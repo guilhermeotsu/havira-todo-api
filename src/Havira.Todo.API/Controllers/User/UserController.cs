@@ -7,6 +7,7 @@ using Havira.Todo.API.Controllers.User.GetUser;
 using Havira.Todo.Application.User;
 using Havira.Todo.Application.User.GetUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Havira.Todo.API.Controllers.User;
@@ -60,6 +61,7 @@ public class UserController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The created User details</returns>
     [HttpPost]
+    [AllowAnonymous]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateUserResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(List<ValidationFailure>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request, CancellationToken cancellationToken)

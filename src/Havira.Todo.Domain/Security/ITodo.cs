@@ -6,7 +6,7 @@ namespace Havira.Todo.Domain.Security;
 public interface ITodo
 {
     /// <summary>
-    /// Gets the unique identifier of the user.
+    /// Gets the unique identifier of the Todo.
     /// </summary>
     /// <returns>The Title of Todo as string.</returns>
     public string Id { get; }

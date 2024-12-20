@@ -28,7 +28,7 @@ public class TodoRepository : ITodoRepository
     /// <returns>The created todo</returns>
     public async Task<Domain.Entities.Todo?> CreateTodoAsync(Domain.Entities.Todo? todo, CancellationToken cancellationToken)
     {
-        await _context.Todos.AddAsync(todo, cancellationToken);
+        await _context.Todos.AddAsync(todo!, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return todo;
     }
@@ -64,10 +64,10 @@ public class TodoRepository : ITodoRepository
     /// <returns>The list of todo if found</returns>
     public async Task<Domain.Entities.Todo?> UpdateTodoAsync(Domain.Entities.Todo? todo, CancellationToken cancellationToken)
     {
-        var existingEntity = await _context.Todos.FindAsync(todo.Id, cancellationToken);
+        var existingEntity = await _context.Todos.FirstOrDefaultAsync(p => p.Id == todo!.Id, cancellationToken);
         if (existingEntity == null) return null;
 
-        _context.Entry(existingEntity).CurrentValues.SetValues(todo);
+        _context.Entry(existingEntity).CurrentValues.SetValues(todo!);
 
         await _context.SaveChangesAsync(cancellationToken);
 

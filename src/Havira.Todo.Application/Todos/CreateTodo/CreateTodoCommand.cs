@@ -7,12 +7,12 @@ public class CreateTodoCommand : IRequest<CreateTodoResult>
     /// <summary>
     /// Get's the Title of a Todo
     /// </summary>
-    public string Title { get; }
+    public string? Title { get; }
 
     /// <summary>
     /// Get's the Description of a Todo
     /// </summary>
-    public string Description { get; }
+    public string? Description { get; }
 
     /// <summary>
     /// Get's the UserId of a Todo
