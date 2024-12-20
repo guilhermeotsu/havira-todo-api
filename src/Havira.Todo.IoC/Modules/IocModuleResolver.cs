@@ -13,5 +13,6 @@ public class IocModuleResolver : IModuleInitializer
     {
         builder.Services.AddScoped<DbContext>(provider => provider.GetRequiredService<DefaultContext>());
         builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
     }
 }
